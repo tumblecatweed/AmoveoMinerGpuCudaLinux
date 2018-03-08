@@ -34,7 +34,7 @@ typedef struct {
 	WORD datalen;
 	unsigned long long bitlen;
 	WORD state[8];
-} SHA256_CTX;
+} SHA256_CTXX;
 
 __constant__ WORD dev_k[64];
 
@@ -51,9 +51,9 @@ static const WORD host_k[64] = {
 
 /*********************** FUNCTION DECLARATIONS **********************/
 char * print_sha(BYTE * buff);
-__device__ void sha256_init(SHA256_CTX *ctx);
-__device__ void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len);
-__device__ void sha256_final(SHA256_CTX *ctx, BYTE hash[]);
+__device__ void sha256_init(SHA256_CTXX *ctx);
+__device__ void sha256_update(SHA256_CTXX *ctx, const BYTE data[], size_t len);
+__device__ void sha256_final(SHA256_CTXX *ctx, BYTE hash[]);
 
 __device__ void mycpy12(uint32_t *d, const uint32_t *s) {
 #pragma unroll 3
@@ -85,7 +85,7 @@ __device__ void mycpy64(uint32_t *d, const uint32_t *s) {
 	for (int k = 0; k < 16; k++) d[k] = s[k];
 }
 
-__device__ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
+__device__ void sha256_transform(SHA256_CTXX *ctx, const BYTE data[])
 {
 	WORD a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 	//WORD S[8];
@@ -133,7 +133,7 @@ __device__ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
 	ctx->state[7] += h;
 }
 
-__device__ void sha256_init(SHA256_CTX *ctx)
+__device__ void sha256_init(SHA256_CTXX *ctx)
 {
 	ctx->datalen = 0;
 	ctx->bitlen = 0;
@@ -147,7 +147,7 @@ __device__ void sha256_init(SHA256_CTX *ctx)
 	ctx->state[7] = 0x5be0cd19;
 }
 
-__device__ void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len)
+__device__ void sha256_update(SHA256_CTXX *ctx, const BYTE data[], size_t len)
 {
 	WORD i;
 
@@ -164,7 +164,7 @@ __device__ void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len)
 	}
 }
 
-__device__ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
+__device__ void sha256_final(SHA256_CTXX *ctx, BYTE hash[])
 {
 	WORD i;
 

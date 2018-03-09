@@ -2,7 +2,7 @@
 
 ## Current version
 
-`v1.0.0.6`
+`v1.0.0.7`
 
 ## Original code
 

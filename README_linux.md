@@ -1,5 +1,9 @@
 # AmoveoMinerGpuCudaLinux
 
+## Current version
+
+`v1.0.0.6`
+
 ## Original code
 
 https://github.com/Mandelhoff/AmoveoMinerGpuCuda

@@ -55,7 +55,7 @@ void PoolApi::SubmitWork(string_t poolUrl, string nonceBase64, string minerPubli
 			// Need to use extract_vector and then convert to string and then to json
 			std::vector<unsigned char> responseData = response.extract_vector().get();
 
-			string responseString(responseData.begin(), responseData.end());
+			wstring responseString(responseData.begin(), responseData.end());
 
 			if (successResponse.compare(responseString) != 0) {
 				wcout << "Info: " << responseString << endl;

@@ -10,11 +10,6 @@ https://github.com/Mandelhoff/AmoveoMinerGpuCuda
 sh build.sh
 ```
 
-## What I changed from original code
+## How to run
 
-1. Add build.sh
-2. Copy `main.cpp` to `main.cu`
-3. Move `PoolApi` class inline in `main.cu`
-4. Replace `SHA256_CTX` by `SHA256_CTXX`
-    - ...ugly solution!
-5. Some tiny changes
+See original README.md

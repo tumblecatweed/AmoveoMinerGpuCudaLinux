@@ -278,7 +278,7 @@ static bool getwork_thread(std::seed_seq &seed)
 			gWorkData.shareDifficulty = workDataNew.shareDifficulty;
 		}
 
-		_sleep(2000);
+        std::this_thread::sleep_for(2000ms);
 	}
 
 	cudaFree(outCtx);
@@ -388,7 +388,7 @@ int main(int argc, char* argv[])
 
 	while (!gWorkData.HasNewWork())
 	{
-		_sleep(100);
+        std::this_thread::sleep_for(100ms);
 	}
 	gWorkData.getCtx(localCtx);
 	cudaMemcpy(d_ctx, localCtx, sizeof(SHA256_CTX), cudaMemcpyHostToDevice);

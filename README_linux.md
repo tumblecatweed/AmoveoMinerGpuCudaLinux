@@ -48,4 +48,4 @@ sh build.sh
 ./AmoveoMinerGpuCudaLinux <Base64AmoveoAddress> <CudaDeviceId>
 ```
 
-For options, see original `README.md`.
+For other options, see original `README.md`.

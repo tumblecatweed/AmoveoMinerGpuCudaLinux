@@ -16,7 +16,7 @@ CUDA 9.1 or later
 sudo apt-get install libcpprest-dev libncurses5-dev libssl-dev unixodbc-dev g++ git
 ```
 
-## How to install CUDA
+## How to install CUDA9.1
 
 ```
 wget http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_9.1.85-1_amd64.deb
@@ -29,6 +29,7 @@ sudo apt install cuda -y
 Add these lines to the end of `.bashrc`
 
 ```
+export CUDA_HOME=/usr/local/cuda
 export PATH="/usr/local/cuda/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 ```
@@ -43,4 +44,8 @@ sh build.sh
 
 ## How to run
 
-See original README.md
+```
+./AmoveoMinerGpuCudaLinux <Base64AmoveoAddress> <CudaDeviceId>
+```
+
+For options, see original `README.md`.

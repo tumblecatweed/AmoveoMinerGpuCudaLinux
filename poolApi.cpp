@@ -68,7 +68,7 @@ void PoolApi::SubmitWork(string_t poolUrl, string nonceBase64, string minerPubli
 	return;
 }
 
-void PoolApi::GetWork(string_t poolUrl, WorkData * pMinerThreadData, string minerPublicKeyBase64)
+void PoolApi::GetWork(string_t poolUrl, WorkData * pMinerThreadData, string minerPublicKeyBase64, int gPoolType)
 {
 	bool success = false;
 	do {
@@ -76,7 +76,11 @@ void PoolApi::GetWork(string_t poolUrl, WorkData * pMinerThreadData, string mine
 			http_client client(poolUrl);
 			http_request request(methods::POST);
 			std::stringstream body;
-			body << "[\"mining_data\",\"" << minerPublicKeyBase64 << "\"]";
+            if (gPoolType == 0) {
+			    body << "[\"mining_data\",\"" << minerPublicKeyBase64 << "\"]";
+            } else {
+			    body << "[\"mining_data\"]";
+            }
 			request.set_body(body.str());
 			//wcout << request.to_string();
 
@@ -98,11 +102,17 @@ void PoolApi::GetWork(string_t poolUrl, WorkData * pMinerThreadData, string mine
 				vector<unsigned char> bhash(bhashString.begin(), bhashString.end());
 				pMinerThreadData->bhash = bhash;
 
-				int blockDifficulty = dataArray[1].at(2).as_integer();
-				pMinerThreadData->blockDifficulty = blockDifficulty;
+                if (gPoolType == 0) {
+				    int blockDifficulty = dataArray[1].at(2).as_integer();
+				    pMinerThreadData->blockDifficulty = blockDifficulty;
 
-				int shareDifficulty = dataArray[1].at(3).as_integer();
-				pMinerThreadData->shareDifficulty = shareDifficulty;
+				    int shareDifficulty = dataArray[1].at(3).as_integer();
+				    pMinerThreadData->shareDifficulty = shareDifficulty;
+                } else {
+				    int blockDifficulty = dataArray[1].at(3).as_integer();
+				    pMinerThreadData->blockDifficulty = blockDifficulty;
+				    pMinerThreadData->shareDifficulty = blockDifficulty;
+                }
 
 				success = true;
 			}

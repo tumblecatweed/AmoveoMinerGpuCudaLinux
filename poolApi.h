@@ -58,7 +58,7 @@ public:
 class PoolApi
 {
 	public:
-		void GetWork(string_t poolUrl, WorkData * pMinerThreadData, string minerPublicKeyBase64);
+		void GetWork(string_t poolUrl, WorkData * pMinerThreadData, string minerPublicKeyBase64, int gPoolType);
 		void SubmitWork(string_t poolUrl, string nonceBase64, string minerPublicKeyBase64);
 
 

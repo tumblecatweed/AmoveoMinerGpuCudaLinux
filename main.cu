@@ -52,13 +52,14 @@ int gElapsedMilliSecMax = FETCH_WORK_INTERVAL_MS;
 
 //#define POOL_URL "http://localhost:32371/work"	// local pool
 #define POOL_URL "http://amoveopool.com/work"
-#define MINER_ADDRESS "BPA3r0XDT1V8W4sB14YKyuu/PgC6ujjYooVVzq1q1s5b6CAKeu9oLfmxlplcPd+34kfZ1qx+Dwe3EeoPu0SpzcI="
+#define MINER_ADDRESS "BOPvbgrso8GakBw2Xxkc1A2lt0OiKg/JqjBuCPfP0bTI/djsM9lgp/8ZMmJgPs/aDlxQL2dT+PYfEywsaRthrmE="
 #define DEFAULT_DEVICE_ID 0
 
 string gMinerPublicKeyBase64(MINER_ADDRESS);
 string gPoolUrl(POOL_URL);
 string_t gPoolUrlW;
 int gDevicdeId = DEFAULT_DEVICE_ID;
+int gPoolType = 0; // 0: amoveopool, 1: original pool
 
 PoolApi gPoolApi;
 WorkData gWorkData;
@@ -232,7 +233,7 @@ static bool getwork_thread(std::seed_seq &seed)
 	while (true)
 	{
 		WorkData workDataNew;
-		gPoolApi.GetWork(gPoolUrlW, &workDataNew, gMinerPublicKeyBase64);
+		gPoolApi.GetWork(gPoolUrlW, &workDataNew, gMinerPublicKeyBase64, gPoolType);
 
 		// Check if new work unit is actually different than what we currently have
 		if (memcmp(&gWorkData.bhash[0], &workDataNew.bhash[0], 32) != 0) {
@@ -292,7 +293,7 @@ int main(int argc, char* argv[])
 	cout << TOOL_NAME << " v" << VERSION_STRING << endl;
 	if (argc <= 1) {
 		cout << "Example Template: " << endl;
-		cout << argv[0] << " " << "<Base64AmoveoAddress>" << " " << "<CudaDeviceId>" << " " << "<BlockSize>" << " " << "<NumBlocks>" << " " << "<SeedString>" << " " << "<SuffixMax>" << " " << "<PoolUrl>" << endl;
+		cout << argv[0] << " " << "<Base64AmoveoAddress>" << " " << "<CudaDeviceId>" << " " << "<BlockSize>" << " " << "<NumBlocks>" << " " << "<SeedString>" << " " << "<SuffixMax>" << " " << "<PoolUrl>" << "<PoolType>" << endl;
 
 		cout << endl;
 		cout << "Example Usage: " << endl;
@@ -310,6 +311,7 @@ int main(int argc, char* argv[])
 		cout << "RandomSeed is optional. No default." << endl;
 		cout << "SuffixMax is optional. Default is 65536" << endl;
 		cout << "PoolUrl is optional. Default PoolUrl is http://amoveopool.com/work" << endl;
+		cout << "PoolType is optional. Specify 0 (for amoveopool.com) or 1 (for amoveo original pool). Default is 0" << endl;
 		return -1;
 	}
 	if (argc >= 2) {
@@ -332,6 +334,9 @@ int main(int argc, char* argv[])
 	}
 	if (argc >= 8) {
 		gPoolUrl = argv[7];
+	}
+	if (argc >= 9) {
+		gPoolType = atoi(argv[8]);
 	}
 
 	gPoolUrlW.resize(gPoolUrl.length(), L' ');

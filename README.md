@@ -80,6 +80,7 @@ Advanced Usage Template:
 
 
 Donations are welcome:
+
 To linux port author:
 * Amoveo: BOPvbgrso8GakBw2Xxkc1A2lt0OiKg/JqjBuCPfP0bTI/djsM9lgp/8ZMmJgPs/aDlxQL2dT+PYfEywsaRthrmE=
 

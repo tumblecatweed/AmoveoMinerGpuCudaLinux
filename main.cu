@@ -404,7 +404,7 @@ int main(int argc, char* argv[])
 			mutexWorkData.unlock();
 			cudaMemcpy(&nonceSolutionVal, g_out, 8, cudaMemcpyDeviceToHost);
 			memcpy(nonceSolution + 15, &nonceSolutionVal, 8);
-			print_hash(nonceSolution);
+			//print_hash(nonceSolution);
 
 			std::async(std::launch::async, submitwork_thread, std::ref(nonceSolution));
 

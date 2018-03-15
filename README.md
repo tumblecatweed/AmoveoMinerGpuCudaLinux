@@ -1,4 +1,21 @@
 # AmoveoMinerGpuCudaLinux
+
+### Hard fork announcement
+
+Amoveo blockchain will hardfork at [block 9000](https://github.com/zack-bitcoin/amoveo/commit/46f20bf12ac9749bd31926be5f25b6e8845802c9).
+
+Due to the POW change, current miner cannot mine on the new chain.
+
+New miner is already implemented in [this brach](https://github.com/tumblecatweed/AmoveoMinerGpuCudaLinux/tree/fix-pow).
+
+Shortly before the hardfork, the master branch will be updated to the new miner.
+
+Before the fork, you can test mine [here](http://159.89.106.253:3010/explorer.html?en) using new miner. Pool url is `http://159.89.106.253:3010`
+
+If you find any problem please make an issue.
+
+### About
+
 Amoveo Cryptocurrency Miner for Gpu work to be used with [AmoveoPool.com](http://AmoveoPool.com) or [amoveo mining pool](https://github.com/zack-bitcoin/amoveo-mining-pool). This version is a Linux port of [original windows miner](https://github.com/Mandelhoff/AmoveoMinerGpuCuda).
 
 Tested Gpu Speeds:
@@ -81,9 +98,10 @@ Advanced Usage Template:
 
 Donations are welcome:
 
-To linux port author:
-* Amoveo: BOPvbgrso8GakBw2Xxkc1A2lt0OiKg/JqjBuCPfP0bTI/djsM9lgp/8ZMmJgPs/aDlxQL2dT+PYfEywsaRthrmE=
+To linux port author (catweed):
+* VEO: BOPvbgrso8GakBw2Xxkc1A2lt0OiKg/JqjBuCPfP0bTI/djsM9lgp/8ZMmJgPs/aDlxQL2dT+PYfEywsaRthrmE=
+* ETH: 0x07D47A1C6de0FD4E1608641f27a156b4692Be72e
 
-To original version author:
-* Amoveo: BPA3r0XDT1V8W4sB14YKyuu/PgC6ujjYooVVzq1q1s5b6CAKeu9oLfmxlplcPd+34kfZ1qx+Dwe3EeoPu0SpzcI=
-* Ethereum: 0x74e0aF0522024f2dd94F0fb9B82d13782ECCaaF5
+To original windows miner author (Mandel):
+* VEO: BPA3r0XDT1V8W4sB14YKyuu/PgC6ujjYooVVzq1q1s5b6CAKeu9oLfmxlplcPd+34kfZ1qx+Dwe3EeoPu0SpzcI=
+* ETH: 0x74e0aF0522024f2dd94F0fb9B82d13782ECCaaF5

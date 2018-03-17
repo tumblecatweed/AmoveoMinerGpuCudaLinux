@@ -21,14 +21,6 @@
 #include "sha256.cuh"
 #include "stdlib.h"
 
-#include <iostream>
-#include <chrono>
-#include <cmath>
-#include <thread>
-#include <iomanip>
-#include <string>
-#include <cassert>
-
 #include <future>
 #include <numeric>
 #include <chrono>
@@ -76,51 +68,48 @@ static std::chrono::high_resolution_clock::time_point t_last_updated;
 static std::chrono::high_resolution_clock::time_point t_last_work_fetch;
 
 
-
 __device__ bool checkResult(unsigned char* h, size_t diff) {
-	unsigned int x = 0;
-	unsigned int y[2];
-	for (int i = 0; i < 31; i++) {
-		if (h[i] == 0) {
-			x += 8;
-			y[1] = h[i + 1];
-			continue;
-		}
-		else if (h[i] < 2) {
-			x += 7;
-			y[1] = (h[i] * 128) + (h[i + 1] / 2);
-		}
-		else if (h[i] < 4) {
-			x += 6;
-			y[1] = (h[i] * 64) + (h[i + 1] / 4);
-		}
-		else if (h[i] < 8) {
-			x += 5;
-			y[1] = (h[i] * 32) + (h[i + 1] / 8);
-		}
-		else if (h[i] < 16) {
-			x += 4;
-			y[1] = (h[i] * 16) + (h[i + 1] / 16);
-		}
-		else if (h[i] < 32) {
-			x += 3;
-			y[1] = (h[i] * 8) + (h[i + 1] / 32);
-		}
-		else if (h[i] < 64) {
-			x += 2;
-			y[1] = (h[i] * 4) + (h[i + 1] / 64);
-		}
-		else if (h[i] < 128) {
-			x += 1;
-			y[1] = (h[i] * 2) + (h[i + 1] / 128);
-		}
-		else {
-			y[1] = h[i];
-		}
-		break;
-	}
-	y[0] = x;
-	return(((256 * y[0]) + y[1]) >= diff);
+    unsigned int x = 0;
+    unsigned int z = 0;
+    for (int i = 0; i < 31; i++) {
+      if (h[i] == 0) {
+        x += 8;
+        continue;
+      }
+      else if (h[i] < 2) {
+        x += 7;
+        z = h[i+1];
+      }
+      else if (h[i] < 4) {
+        x += 6;
+        z = (h[i+1] / 2) + ((h[i] % 2) * 128);
+      }
+      else if (h[i] < 8) {
+        x += 5;
+        z = (h[i+1] / 4) + ((h[i] % 4) * 64);
+      }
+      else if (h[i] < 16) {
+        x += 4;
+        z = (h[i+1] / 8) + ((h[i] % 8) * 32);
+      }
+      else if (h[i] < 32) {
+        x += 3;
+        z = (h[i+1] / 16) + ((h[i] % 16) * 16);
+      }
+      else if (h[i] < 64) {
+        x += 2;
+        z = (h[i+1] / 32) + ((h[i] % 32) * 8);
+      }
+      else if (h[i] < 128) {
+        x += 1;
+        z = (h[i+1] / 64) + ((h[i] % 64) * 4);
+      }
+      else {
+        z = (h[i+1] / 128) + ((h[i] % 128) * 2);
+      }
+      break;
+    }
+    return(((256 * x) + z) >= diff);
 }
 
 #define SUFFIX_MAX 65536
@@ -165,19 +154,14 @@ __global__ void sha256Init_kernel(unsigned char * out_ctx, unsigned char * bhash
 {
 	SHA256_CTX ctx;
 	unsigned char bhashLocal[32];
-	unsigned char nonceLocal[24];
+	unsigned char nonceLocal[15];
 
 	memcpy(bhashLocal, bhash, 32);
-	memcpy(nonceLocal, noncePart, 24);
-
-	unsigned char diffA = diff / 256;
-	unsigned char diffB = diff % 256;
+	memcpy(nonceLocal, noncePart, 15);
 
 	sha256_init(&ctx);
 	sha256_update(&ctx, bhashLocal, 32);
-	sha256_update(&ctx, &diffA, 1);
-	sha256_update(&ctx, &diffB, 1);
-	sha256_update(&ctx, nonceLocal, 24);
+	sha256_update(&ctx, nonceLocal, 15);
 	memcpy(out_ctx, &ctx, 0x70);
 }
 
@@ -226,7 +210,7 @@ static bool getwork_thread(std::seed_seq &seed)
 	unsigned char *d_bhash = nullptr;
 	unsigned char *d_nonce = nullptr;
 	cudaMalloc(&d_bhash, 32);
-	cudaMalloc(&d_nonce, 24);
+	cudaMalloc(&d_nonce, 15);
 	unsigned char * outCtx = nullptr;
 	cudaMalloc(&outCtx, 0x70);
 
@@ -244,7 +228,7 @@ static bool getwork_thread(std::seed_seq &seed)
 			gWorkData.shareDifficulty = workDataNew.shareDifficulty;
 
 			cudaMemcpy(d_bhash, &gWorkData.bhash[0], 32, cudaMemcpyHostToDevice);
-			cudaMemcpy(d_nonce, &gWorkData.nonce[0], 24, cudaMemcpyHostToDevice);
+			cudaMemcpy(d_nonce, &gWorkData.nonce[0], 15, cudaMemcpyHostToDevice);
 
 			sha256Init_kernel << < 1, 1 >> > (outCtx, d_bhash, d_nonce, gWorkData.blockDifficulty);
 
@@ -279,7 +263,7 @@ static bool getwork_thread(std::seed_seq &seed)
 
 static void submitwork_thread(unsigned char * nonceSolution)
 {
-	gPoolApi.SubmitWork(gPoolUrlW, base64_encode(nonceSolution, 32), gMinerPublicKeyBase64);
+	gPoolApi.SubmitWork(gPoolUrlW, base64_encode(nonceSolution, 23), gMinerPublicKeyBase64);
 	cout << "--- Found Share --- " << endl;
 }
 
@@ -414,15 +398,13 @@ int main(int argc, char* argv[])
 		cudaMemcpy(&found, g_found, 1, cudaMemcpyDeviceToHost);
 
 		if (found) {
-			unsigned char nonceSolution[32];
+			unsigned char nonceSolution[23];
 			mutexWorkData.lock();
-			memcpy(nonceSolution, &gWorkData.nonce[0], 24);
+			memcpy(nonceSolution, &gWorkData.nonce[0], 15);
 			mutexWorkData.unlock();
 			cudaMemcpy(&nonceSolutionVal, g_out, 8, cudaMemcpyDeviceToHost);
-			memcpy(nonceSolution + 24, &nonceSolutionVal, 8);
+			memcpy(nonceSolution + 15, &nonceSolutionVal, 8);
 			//print_hash(nonceSolution);
-			//print_hash(g_hash);
-			//poolApi.SubmitWork(gPoolUrlW, base64_encode(nonceSolution, 32), gMinerPublicKeyBase64);
 
 			std::async(std::launch::async, submitwork_thread, std::ref(nonceSolution));
 

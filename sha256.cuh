@@ -166,10 +166,10 @@ __device__ void sha256_update(SHA256_CTX *ctx, const BYTE data[], size_t len)
 
 __device__ void sha256_updateAmoveoSpecial(SHA256_CTX *ctx)
 {
-	ctx->data[2] = 0x80;
-	memset(&ctx->data[3], 0, 53);
+	ctx->data[55] = 0x80;
+	//memset(&ctx->data[3], 0, 53);
 
-	ctx->bitlen = 528;
+	ctx->bitlen = 440; // (bhash 32B + nonce 23B) * 8bit
 	ctx->data[63] = ctx->bitlen;
 	ctx->data[62] = ctx->bitlen >> 8;
 	ctx->data[61] = ctx->bitlen >> 16;
@@ -182,8 +182,8 @@ __device__ void sha256_updateAmoveoSpecial(SHA256_CTX *ctx)
 
 __device__ void sha256_finalAmoveo(SHA256_CTX *ctx, const BYTE data[], BYTE hash[])
 {
-	ctx->data[0] = data[0];
-	ctx->data[1] = data[1];
+	ctx->data[53] = data[0];
+	ctx->data[54] = data[1];
 
 	sha256_transform(ctx, ctx->data);
 

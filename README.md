@@ -4,15 +4,11 @@
 
 Amoveo blockchain will hardfork at [block 9000](https://github.com/zack-bitcoin/amoveo/commit/46f20bf12ac9749bd31926be5f25b6e8845802c9).
 
-Due to the POW change, current miner cannot mine on the new chain.
-
-New miner is already implemented in [this brach](https://github.com/tumblecatweed/AmoveoMinerGpuCudaLinux/tree/fix-pow).
-
-Shortly before the hardfork, the master branch will be updated to the new miner.
-
-Before the fork, you can test mine [here](http://159.89.106.253:3010/explorer.html?en) using new miner. Pool url is `http://159.89.106.253:3010`
+Before the fork, You can test mine [here](http://159.89.106.253:3010/explorer.html?en). Pool url is `http://159.89.106.253:3010`
 
 If you find any problem please make an issue.
+
+Old miner before 9000 is [here](https://github.com/tumblecatweed/AmoveoMinerGpuCudaLinux/tree/before-9000-block)
 
 ### About
 

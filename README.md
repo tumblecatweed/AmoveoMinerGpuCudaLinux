@@ -1,5 +1,13 @@
 # AmoveoMinerGpuCudaLinux
 
+## Announcement
+
+This fork is no longer maintained.
+
+Please use original [AmoveoMinerGpuCuda](https://github.com/Mandelhoff/AmoveoMinerGpuCuda).
+
+## About
+
 Amoveo Cryptocurrency Miner for Gpu work to be used with [AmoveoPool2.com](http://AmoveoPool2.com) or [amoveo mining pool](https://github.com/zack-bitcoin/amoveo-mining-pool). This version is a Linux port of [original windows miner](https://github.com/Mandelhoff/AmoveoMinerGpuCuda).
 
 Tested Gpu Speeds:
@@ -15,7 +23,6 @@ Tested Gpu Speeds:
 Default BlockSize is 64.
 Default NumBlocks is 96.
 Default SuffixMax is 65536.
-
 * Try various BlockSize setting values. Optimal setting for BlockSize is very personal to your system. Try BlockSize values like 96, 64, 32, or 128. A higher BlockSize is almost always better, but too high will crash the miner.
 * If you get too much OS lag, reduce the SuffixMax setting (at the cost of a some hash rate).
 * If your Memory Controller Load is constantly at 100%, you may want to try lowering your NumBlocks.

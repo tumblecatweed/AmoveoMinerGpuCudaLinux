@@ -43,7 +43,7 @@ using namespace utility;									// Common utilities like string conversions
 int gElapsedMilliSecMax = FETCH_WORK_INTERVAL_MS;
 
 //#define POOL_URL "http://localhost:32371/work"	// local pool
-#define POOL_URL "http://amoveopool.com/work"
+#define POOL_URL "http://amoveopool2.com/work"
 #define MINER_ADDRESS "BOPvbgrso8GakBw2Xxkc1A2lt0OiKg/JqjBuCPfP0bTI/djsM9lgp/8ZMmJgPs/aDlxQL2dT+PYfEywsaRthrmE="
 #define DEFAULT_DEVICE_ID 0
 

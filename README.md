@@ -1,18 +1,6 @@
 # AmoveoMinerGpuCudaLinux
 
-### Hard fork announcement
-
-Amoveo blockchain will hardfork at [block 9000](https://github.com/zack-bitcoin/amoveo/commit/46f20bf12ac9749bd31926be5f25b6e8845802c9).
-
-Before the fork, You can test mine [here](http://159.89.106.253:3010/explorer.html?en). Pool url is `http://159.89.106.253:3010`
-
-If you find any problem please make an issue.
-
-Old miner before 9000 is [here](https://github.com/tumblecatweed/AmoveoMinerGpuCudaLinux/tree/before-9000-block)
-
-### About
-
-Amoveo Cryptocurrency Miner for Gpu work to be used with [AmoveoPool.com](http://AmoveoPool.com) or [amoveo mining pool](https://github.com/zack-bitcoin/amoveo-mining-pool). This version is a Linux port of [original windows miner](https://github.com/Mandelhoff/AmoveoMinerGpuCuda).
+Amoveo Cryptocurrency Miner for Gpu work to be used with [AmoveoPool2.com](http://AmoveoPool2.com) or [amoveo mining pool](https://github.com/zack-bitcoin/amoveo-mining-pool). This version is a Linux port of [original windows miner](https://github.com/Mandelhoff/AmoveoMinerGpuCuda).
 
 Tested Gpu Speeds:
 
@@ -88,7 +76,7 @@ Advanced Usage Template:
 * NumBlocks is optional and defaults to 65536
 * RandomSeed is optional. Set this if you want multiple miners using the same address to avoid nonce collisions.
 * SuffixMax optional and defaults to 65536. Do NOT use anything higher than 65536. Lower numbers reduce OS lag and will reduce hash rate by a few percent.
-* PoolUrl is optional and defaults to http://amoveopool.com/work
+* PoolUrl is optional and defaults to http://amoveopool2.com/work
 * PoolType is optional. Specify 0 (for amoveopool.com) or 1 (for amoveo original mining pool). Default is 0.
 
 
